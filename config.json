@@ -1,0 +1,17 @@
+{
+    "banner": "  __  __ ______   _______ ______ _____  __  __ _____ _   _          __   __\n |  \\/  |  ____| |__   __|  ____|  __ \\|  \\/  |_   _| \\ | |   /\\    \\ \\ / /\n | \\  / | |__       | |  | |__  | |__) | \\  / | | | |  \\| |  /  \\    \\ V / \n | |\\/| |  __|      | |  |  __| |  _  /| |\\/| | | | | . ` | / /\\ \\    > <  \n | |  | | |         | |  | |____| | \\ \\| |  | |_| |_| |\\  |/ ____ \\  / . \\ \n |_|  |_|_|         |_|  |______|_|  \\_\\_|  |_|_____|_| \\_/_/    \\_\\/_/ \\_\\\n",
+    "menus": {
+        "Main": [
+            {"name": "Matthews Repo", "script_path": null},
+            {"name": "RoadScout Repo", "script_path": null}
+        ],
+        "Matthews Repo": [
+            {"name": "MovSplicer", "script_path": "programs/MovSplicer.py"},
+            {"name": "ImgConverter", "script_path": "programs/ImgConverter.py"}
+        ],
+        "RoadScout Repo": [
+            {"name": "RS-Infrence", "script_path": "programs/RS-Infrence.py"},
+            {"name": "RS-Trainer", "script_path": "programs/RS-Trainer.py"}
+        ]
+    }
+}
