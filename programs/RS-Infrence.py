@@ -3,12 +3,12 @@ import cv2
 from ultralytics import YOLO  # YOLOv8 library
 
 # Load the custom YOLOv8 model
-model_path = "best.pt"  # Update with the path to your YOLOv8 model
+model_path = "Input/RoadScout.pt"  # Update with the path to your YOLOv8 model
 model = YOLO(model_path)
 
 # Paths for input and output directories
-input_folder = "/media/matthew/USB-Hub/MF-Repo/TerminaX/Input"
-output_folder = "/media/matthew/USB-Hub/MF-Repo/TerminaX/Output"
+input_folder = "/media/matthew/USB-Hub/MF-TerminaX/Input"
+output_folder = "/media/matthew/USB-Hub/MF-TerminaX/Output"
 
 # Ensure output folder exists
 os.makedirs(output_folder, exist_ok=True)

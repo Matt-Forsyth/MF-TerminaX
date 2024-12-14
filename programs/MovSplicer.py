@@ -41,8 +41,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Automatically handle input and output directories
-    input_directory = "/media/matthew/USB-Hub/MF-Repo/TerminaX/Input"
-    output_directory = "/media/matthew/USB-Hub/MF-Repo/TerminaX/Output"
+    input_directory = "/media/matthew/USB-Hub/MF-TerminaX/Input"
+    output_directory = "/media/matthew/USB-Hub/MF-TerminaX/Output"
 
     # Create directories if they don't exist
     os.makedirs(input_directory, exist_ok=True)
