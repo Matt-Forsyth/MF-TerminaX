@@ -1,0 +1,30 @@
+# Ignore the Input directory
+/media/matthew/USB-Vault/MF-TerminaX/Input/
+
+# Ignore the Output directory
+/media/matthew/USB-Vault/MF-TerminaX/Output/
+
+# Ignore the Model directory
+/media/matthew/USB-Vault/MF-TerminaX/Model/
+
+# Ignore specific subdirectories within Model if necessary
+/media/matthew/USB-Vault/MF-TerminaX/Model/Current/
+/media/matthew/USB-Vault/MF-TerminaX/Model/Training/
+
+# General exclusions
+*.pyc
+__pycache__/
+*.log
+*.tmp
+.jpg
+.txt
+.csv
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore any temporary editor or IDE-specific files
+.vscode/
+.idea/
+*.swp

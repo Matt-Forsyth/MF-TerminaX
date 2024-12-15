@@ -1,6 +1,7 @@
 import os
 import cv2
 import glob
+import configparser
 
 def extract_frames(video_path, output_folder, fps_interval=1):
     fps_interval = 15
@@ -33,16 +34,27 @@ def extract_frames(video_path, output_folder, fps_interval=1):
 def find_mov_files(directory):
     return glob.glob(os.path.join(directory, "*.mov"))
 
+def read_settings(settings_file):
+    config = configparser.ConfigParser()
+    config.read(settings_file)
+
+    try:
+        input_path = config["Paths"]["input_path"]
+        output_path = config["Paths"]["output_path"]
+        return input_path, output_path
+    except KeyError as e:
+        print(f"Error: Missing key in settings file: {e}")
+        return None, None
+
 if __name__ == "__main__":
-    import argparse
+    settings_file = "settings.ini"
 
-    # Argument parser for additional flexibility
-    parser = argparse.ArgumentParser(description="Extract frames from videos.")
-    args = parser.parse_args()
+    # Read input and output paths from settings.ini
+    input_directory, output_directory = read_settings(settings_file)
 
-    # Automatically handle input and output directories
-    input_directory = "/media/matthew/USB-Vault/MF-TerminaX/Input"
-    output_directory = "/media/matthew/USB-Vault/MF-TerminaX/Output"
+    if not input_directory or not output_directory:
+        print("Error: Invalid paths in settings file. Please check settings.ini.")
+        exit(1)
 
     # Create directories if they don't exist
     os.makedirs(input_directory, exist_ok=True)
@@ -55,7 +67,6 @@ if __name__ == "__main__":
             base_name = os.path.splitext(os.path.basename(mov_file))[0]
             video_output_directory = os.path.join(output_directory, base_name)
             print(f"Processing {mov_file} into folder {video_output_directory}")
-            extract_frames(mov_file, video_output_directory, fps_interval=args.fps_interval)
+            extract_frames(mov_file, video_output_directory, fps_interval=1)
     else:
         print(f"No .mov files found in {input_directory}. Add .mov files and re-run.")
- 
