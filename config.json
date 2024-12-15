@@ -1,7 +1,18 @@
 {
-    "banner": "  __  __ ______   _______ ______ _____  __  __ _____ _   _          __   __\n |  \\/  |  ____| |__   __|  ____|  __ \\|  \\/  |_   _| \\ | |   /\\    \\ \\ / /\n | \\  / | |__       | |  | |__  | |__) | \\  / | | | |  \\| |  /  \\    \\ V / \n | |\\/| |  __|      | |  |  __| |  _  /| |\\/| | | | | . ` | / /\\ \\    > <  \n | |  | | |         | |  | |____| | \\ \\| |  | |_| |_| |\\  |/ ____ \\  / . \\ \n |_|  |_|_|         |_|  |______|_|  \\_\\_|  |_|_____|_| \\_/_/    \\_\\/_/ \\_\\\n",
+    "banner": " _____                   _            __  __ \n|_   _|__ _ __ _ __ ___ (_)_ __   __ _\\ \\/ / \n  | |/ _ \\ '__| '_ ` _ \\| | '_ \\ / _` |\\  / \n  | |  __/ |  | | | | | | | | | | (_| |/  \\ \n  |_|\\___|_|  |_| |_| |_|_|_| |_|\\__,_/_/\\_\\",
     "menus": {
         "Main": [
+            {"name": "Deploy RoadScout! (W.I.P)", "script_path": null},
+            {"name": "Machine Vision", "script_path": null},
+            {"name": "Tools", "script_path": null}
+        ],
+        "Deploy RoadScout! (W.I.P)": [
+            {"name": "Deploy Server", "script_path": "programs/DeployServer.py"},
+            {"name": "Deploy Client", "script_path": "programs/DeployClient.py"},
+            {"name": "Deploy Agent", "script_path": "programs/DeployAgent.py"},
+            {"name": "Deploy DataInjest", "script_path": "programs/DeployDataInjest.py"}
+        ],
+        "Machine Vision": [
             {"name": "Preparation", "script_path": null},
             {"name": "Train Model", "script_path": null},
             {"name": "Use Model", "script_path": null}
@@ -14,6 +25,9 @@
         ],
         "Train Model": [
             {"name": "Train Model", "script_path": "programs/Train-Model.py"}
+        ],
+        "Tools": [
+            {"name": "Jsonify ASCII Art", "script_path": "programs/JsonifyASCII.py"}
         ]
     }
 }

@@ -40,7 +40,7 @@ class MFProgram:
 
 class MFMenu:
     def __init__(self):
-        self.menus = {"Main": []}
+        self.menus = {"Main": [MFProgram("Settings", None)]}
         self.current_menu = "Main"
         self.config_file = "config.json"
         self.banner = self.load_banner()
@@ -55,15 +55,15 @@ class MFMenu:
             if os.path.exists(self.config_file):
                 with open(self.config_file, "r") as f:
                     config_data = json.load(f)
-                    self.menus = {
+                    self.menus.update({
                         menu: [MFProgram(p["name"], p["script_path"]) for p in programs]
-                        for menu, programs in config_data.get("menus", {"Main": []}).items()
-                    }
+                        for menu, programs in config_data.get("menus", {}).items()
+                    })
         except Exception as e:
             print(f"Error loading programs: {e}")
 
     def load_banner(self):
-        default_banner = ("Error Loading Banner!")
+        default_banner = "Error Loading Banner!"
         try:
             if os.path.exists(self.config_file):
                 with open(self.config_file, "r") as f:
@@ -94,7 +94,7 @@ class MFMenu:
                     self.banner = config_data.get("banner", self.banner)
                     self.menus = {
                         menu: [MFProgram(p["name"], p["script_path"]) for p in programs]
-                        for menu, programs in config_data.get("menus", {"Main": []}).items()
+                        for menu, programs in config_data.get("menus", {}).items()
                     }
         except Exception as e:
             print(f"Error loading configuration: {e}")
@@ -107,8 +107,8 @@ class MFMenu:
             stdscr.clear()
             stdscr.addstr(self.banner, curses.A_BOLD)
             stdscr.addstr("\n\n")
-            stdscr.addstr(f"Current Menu: {self.current_menu}                          Press 'B' to go back!\n",curses.A_BOLD)
-            options = self.menus.get(self.current_menu, []) + [MFProgram("Settings", None)]
+            stdscr.addstr(f"Current Menu: {self.current_menu}\n", curses.A_BOLD)
+            options = self.menus.get(self.current_menu, []) + ([MFProgram("Back", None)] if self.current_menu != "Main" else []) +([MFProgram("Settings", None)] if self.current_menu == "Main" else [])
 
             for idx, program in enumerate(options):
                 if idx == current_row:
@@ -132,8 +132,7 @@ class MFMenu:
                 elif selected_program.name in self.menus:  # Navigate to submenu
                     self.current_menu = selected_program.name
                     current_row = 0
-            elif key in [ord("b"), ord("B")]:  # Go back to the Main menu
-                if self.current_menu != "Main":
+                elif selected_program.name == "Back":
                     self.current_menu = "Main"
                     current_row = 0
 
@@ -147,7 +146,7 @@ class MFMenu:
             stdscr.clear()
             stdscr.addstr(self.banner, curses.A_BOLD)
             stdscr.addstr("\n\n")
-            stdscr.addstr(f"Current Menu: Settings!                              Press 'B' to go back!\n",curses.A_BOLD)
+            stdscr.addstr(f"Current Menu: Settings\n", curses.A_BOLD)
 
             for idx, option in enumerate(options):
                 if idx == current_row:
