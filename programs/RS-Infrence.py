@@ -7,8 +7,8 @@ model_path = "Input/RoadScout.pt"  # Update with the path to your YOLOv8 model
 model = YOLO(model_path)
 
 # Paths for input and output directories
-input_folder = "/media/matthew/USB-Hub/MF-TerminaX/Input"
-output_folder = "/media/matthew/USB-Hub/MF-TerminaX/Output"
+input_folder = "/media/matthew/USB-Vault/MF-TerminaX/Input"
+output_folder = "/media/matthew/USB-Vault/MF-TerminaX/Output"
 
 # Ensure output folder exists
 os.makedirs(output_folder, exist_ok=True)

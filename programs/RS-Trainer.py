@@ -6,7 +6,7 @@ if __name__ == "__main__":
 
     # Train the model
     model.train(
-        data="/media/matthew/USB-Hub/MF-TerminaX/Input/data.yaml",  # Path to your dataset YAML file
+        data="/media/matthew/USB-Vault/MF-TerminaX/Input/data.yaml",  # Path to your dataset YAML file
         epochs=100,                 # Number of training epochs
         imgsz=640,                 # Image size for training (default: 640)
         batch=16,                  # Batch size (adjust based on your system capabilities)

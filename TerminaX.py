@@ -107,8 +107,7 @@ class MFMenu:
             stdscr.clear()
             stdscr.addstr(self.banner, curses.A_BOLD)
             stdscr.addstr("\n\n")
-            stdscr.addstr(f"Current Menu: {self.current_menu}                               Press 'B' to go back!\n",curses.A_BOLD)
-            # Combine menu options with Settings and Exit
+            stdscr.addstr(f"Current Menu: {self.current_menu}                          Press 'B' to go back!\n",curses.A_BOLD)
             options = self.menus.get(self.current_menu, []) + [MFProgram("Settings", None)]
 
             for idx, program in enumerate(options):
@@ -147,7 +146,8 @@ class MFMenu:
         while True:
             stdscr.clear()
             stdscr.addstr(self.banner, curses.A_BOLD)
-            stdscr.addstr(f"\n\nSettings!:                                             Press 'B' to go back!\n",curses.A_BOLD)
+            stdscr.addstr("\n\n")
+            stdscr.addstr(f"Current Menu: Settings!                              Press 'B' to go back!\n",curses.A_BOLD)
 
             for idx, option in enumerate(options):
                 if idx == current_row:

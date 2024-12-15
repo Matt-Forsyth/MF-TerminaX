@@ -39,8 +39,8 @@ def convert_images_to_jpg(input_folder, output_folder):
             print(f"Failed to convert {file}: {e}")
 
 if __name__ == "__main__":
-    input_folder = "/media/matthew/USB-Hub/MF-TerminaX/Input"
-    output_folder = "/media/matthew/USB-Hub/MF-TerminaX/Output"
+    input_folder = "/media/matthew/USB-Vault/MF-TerminaX/Input"
+    output_folder = "/media/matthew/USB-Vault/MF-TerminaX/Output"
 
     convert_images_to_jpg(input_folder, output_folder)
     print("Conversion process completed.")
