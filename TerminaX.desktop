@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=TerminaX
 Comment=Open TerminaX Author: Matthew Forsyth
-Exec=gnome-terminal -- bash -c "cd /media/matthew/USB-Vault/TerminaX; python3 /media/matthew/USB-Vault/TerminaX/TerminaX.py; exec bash"
+Exec=gnome-terminal -- bash -c "cd /home/matthew/TerminaX; python3 /home/matthew/TerminaX/TerminaX.py; exec bash"
 Icon=utilities-terminal
 Terminal=true
 Type=Application
