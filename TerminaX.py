@@ -6,6 +6,7 @@ import sys
 import time
 import threading
 import socket
+import re
 
 def check_online_status():
     """Check internet connectivity by attempting to connect to a known server."""
@@ -49,6 +50,7 @@ class MFMenu:
         self.online_status = check_online_status()
         self.refresh_interval = self.load_refresh_interval()
         self.stop_refresh = False
+        self.last_ping_update = 0
 
     def load_refresh_interval(self):
         """Load the refresh interval from the config file."""
@@ -56,7 +58,7 @@ class MFMenu:
             if os.path.exists(self.config_file):
                 with open(self.config_file, "r") as f:
                     config_data = json.load(f)
-                    return config_data.get("refresh_interval", 5)  # Default to 5 seconds
+                    return config_data.get("refresh_interval", 1)  # Default to 1 seconds
         except Exception as e:
             print(f"Error loading refresh interval: {e}")
         return 5
@@ -89,20 +91,32 @@ class MFMenu:
         return default_banner
 
     def update_online_status(self):
-        """Continuously update the online status and record ping times."""
         while not self.stop_refresh:
-            start_time = time.time()
-            self.online_status = check_online_status()
-            if self.online_status:
-                ping_time = (time.time() - start_time) * 1000  # Convert to milliseconds
-                if len(self.ping_times) >= 60:  # Keep only the last 60 pings (1 minute)
-                    self.ping_times.pop(0)
-                self.ping_times.append(ping_time)
-            time.sleep(self.refresh_interval)
-        """Continuously update the online status in a separate thread."""
-        while not self.stop_refresh:
-            self.online_status = check_online_status()
-            time.sleep(self.refresh_interval)
+            try:
+                current_time = time.time()
+                if current_time - self.last_ping_update >= self.refresh_interval:
+                    self.online_status = check_online_status()
+                    ping_time = self.measure_ping()
+                    if ping_time is not None:
+                        self.ping_times.append(ping_time)
+                        if len(self.ping_times) > 10:  # Keep last 10 readings
+                            self.ping_times.pop(0)
+                    self.last_ping_update = current_time
+                time.sleep(0.1)  # Prevent CPU overuse
+            except Exception as e:
+                print(f"Error updating status: {e}")
+
+    def measure_ping(self):
+        try:
+            response = subprocess.run(['ping', '-c', '1', '8.8.8.8'], 
+                                    capture_output=True, text=True, timeout=2)
+            if response.returncode == 0:
+                match = re.search(r'time=([\d.]+)', response.stdout)
+                if match:
+                    return float(match.group(1))
+        except Exception:
+            pass
+        return None
 
     def add_program(self, menu, name, script_path):
         if menu not in self.menus:
@@ -199,19 +213,30 @@ class MFMenu:
 
     def main_loop(self, stdscr):
         current_row = 0
+        last_refresh = time.time()
         try:
             while True:
-                stdscr.clear()
+                current_time = time.time()
                 options = self.get_menu_options()
-                current_row = max(0, min(current_row, len(options) - 1))
                 
-                self.render_banner(stdscr)
-                self.render_status_bar(stdscr)
-                self.render_menu_items(stdscr, options, current_row)
+                # Set non-blocking input with 100ms timeout
+                stdscr.timeout(100)
                 
+                # Refresh display every second
+                if current_time - last_refresh >= 1:
+                    stdscr.clear()
+                    current_row = max(0, min(current_row, len(options) - 1))
+                    self.render_banner(stdscr)
+                    self.render_status_bar(stdscr)
+                    self.render_menu_items(stdscr, options, current_row)
+                    stdscr.refresh()
+                    last_refresh = current_time
+                
+                # Handle input
                 key = stdscr.getch()
-                
-                if key == curses.KEY_UP:
+                if key == curses.ERR:  # No key pressed
+                    continue
+                elif key == curses.KEY_UP:
                     current_row = max(0, current_row - 1)
                 elif key == curses.KEY_DOWN:
                     current_row = min(len(options) - 1, current_row + 1)
@@ -220,9 +245,16 @@ class MFMenu:
                         selected_program = options[current_row]
                         current_row = self.handle_menu_selection(stdscr, selected_program, current_row)
                 
-                stdscr.refresh()
+                # Refresh on input
+                if key != curses.ERR:
+                    stdscr.clear()
+                    self.render_banner(stdscr)
+                    self.render_status_bar(stdscr)
+                    self.render_menu_items(stdscr, options, current_row)
+                    stdscr.refresh()
         finally:
             self.stop_refresh = True
+            stdscr.timeout(-1)  # Reset timeout to blocking mode
 
     def display(self, stdscr):
         curses.curs_set(0)
