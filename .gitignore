@@ -11,9 +11,6 @@
 /media/matthew/USB-Vault/MF-TerminaX/Model/Current/
 /media/matthew/USB-Vault/MF-TerminaX/Model/Training/
 
-#Ignore config.json becuase it contains sensitive data
-config.json
-
 # General exclusions
 *.pyc
 __pycache__/
